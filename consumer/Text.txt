@@ -1,0 +1,6 @@
+
+
+
+Curl -X PUT "localhost:9200/report-index"
+
+curl.exe -X PUT "http://localhost:9200/report-index" -H "Content-Type: application/json" -d "{\"mappings\":{\"properties\":{\"reportId\":{\"type\":\"keyword\"},\"timestamp\":{\"type\":\"date\"},\"agentId\":{\"type\":\"keyword\"},\"unit\":{\"type\":\"keyword\"},\"theater\":{\"type\":\"keyword\"},\"sector\":{\"type\":\"keyword\"},\"location\":{\"type\":\"keyword\"},\"reportType\":{\"type\":\"keyword\"},\"priority\":{\"type\":\"keyword\"},\"sourceType\":{\"type\":\"keyword\"},\"message\":{\"type\":\"text\"},\"subjectId\":{\"type\":\"integer\"},\"subjectType\":{\"type\":\"keyword\"},\"processedAt\":{\"type\":\"date\"}}}}"

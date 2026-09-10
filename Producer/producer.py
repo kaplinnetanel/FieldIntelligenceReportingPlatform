@@ -4,7 +4,7 @@ import os
 import json
 from logger import get_logger
 
-log = get_logger(__name__)
+log = get_logger("Producer")
 
 def producer():
     try :
@@ -34,4 +34,3 @@ def producer():
         print(f"eror in the producer {s}")
 if __name__ == "__main__":
   producer()
-
