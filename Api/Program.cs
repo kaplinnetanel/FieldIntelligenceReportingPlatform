@@ -20,7 +20,7 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
 // Add services to the container.
-var settings = new ElasticsearchClientSettings(new Uri("http://localhost:9200"));
+var settings = new ElasticsearchClientSettings(new Uri("http://elasticsearch:9200"));
 var client = new ElasticsearchClient(settings);
 
 builder.Services.AddSingleton(client);
@@ -33,7 +33,6 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.UseExceptionHandler();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

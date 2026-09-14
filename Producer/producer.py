@@ -23,6 +23,7 @@ def producer():
                 for row in data:
                     producer.produce(topic,value=json.dumps(row))
                     print(row)
+                    producer.poll(0)
                     c += 1
                     log.info("the masseg send to kafka")
                 producer.flush()

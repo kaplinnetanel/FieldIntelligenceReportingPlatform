@@ -19,10 +19,12 @@ Log.Logger = new LoggerConfiguration()
 
     var services = new ServiceCollection();
 
-    var settings = new ElasticsearchClientSettings(new Uri("http://localhost:9200"))
-   .DefaultIndex("report-index");
+    var settings = new ElasticsearchClientSettings(
+        new Uri("http://elasticsearch:9200")
+    )
+    .DefaultIndex("report-index");
 
-    var elasticClient = new ElasticsearchClient(settings);
+var elasticClient = new ElasticsearchClient(settings);
     services.AddSingleton(elasticClient);
 
   
@@ -49,14 +51,16 @@ Log.Logger = new LoggerConfiguration()
     };
 
     using var consumer = new ConsumerBuilder<Ignore, string>(consumerConfig).Build();
-
+    Log.Information("Kafka consumer created");
 
     consumer.Subscribe(topic);
+    Log.Information($"Subscribed to topic: {topic}, group: {groupId}");
 
-    while (true)
+while (true)
     {
         try
         {
+            Log.Information("Waiting for Kafka message...");
             var result = consumer.Consume(TimeSpan.FromSeconds(10));
             if (result == null || result.Message.Value == null)
             {
@@ -75,7 +79,7 @@ Log.Logger = new LoggerConfiguration()
             {
                 Log.Warning("Message processing failed, skipping commit.");
             }
-    }
+         }
         catch (Exception ex)
         {
             Log.Error($"Error occurred: {ex.Message}");
