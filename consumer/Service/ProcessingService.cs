@@ -62,13 +62,20 @@ public class ProcessingService
 
         surveyData.processedAt = DateTime.UtcNow;
 
-        // אינדוקס ישיר עם ה-Id של הדיווח. אלסטיק ידאג לבדוק ייחודיות ודורס/שומר אוטומטית
-        var response = await _elasticClient.IndexAsync(surveyData, idx => idx.Index(indexName).Id(surveyData.reportId));
+        var response = await _elasticClient.CreateAsync(
+            surveyData,
+            idx => idx.Index(indexName).Id(surveyData.reportId));
 
         if (!response.IsValidResponse)
         {
-            var errorReason = response.ElasticsearchServerError?.Error?.Reason ?? response.DebugInformation;
-            Log.Error("Failed to index report {Id}. Elasticsearch Error: {Reason}", surveyData.reportId, errorReason);
+            var errorReason = response.ElasticsearchServerError?.Error?.Reason
+                              ?? response.DebugInformation;
+
+            Log.Warning(
+                "Report {Id} was rejected by Elasticsearch. Reason: {Reason}",
+                surveyData.reportId,
+                errorReason);
+
             return true;
         }
 

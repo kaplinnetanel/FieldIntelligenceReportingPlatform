@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace consumer.Models;
 public class Report
 {
+    [Required]
     public string reportId { get; set; } = string.Empty;
     [Required]
     [JsonPropertyName("@timestamp")]
